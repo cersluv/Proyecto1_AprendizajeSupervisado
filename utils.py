@@ -1,0 +1,1 @@
+# acá se van a colocar las funciones que se usan en varios lados, por ejemplo las accurancies y esas cosas jeje
