@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import GridSearchCV
 from collections import Counter
 
 # --------------------------
@@ -229,7 +230,7 @@ def predecir(model, X_test):
 
 def optimize_logistic_regression_sklearn(X_train, y_train, cv=5):
     """Optimiza hiperparámetros de regresión logística con GridSearch"""
-    from sklearn.model_selection import GridSearchCV
+    
     
     # Definir grid de parámetros a probar
     param_grid = {
@@ -293,7 +294,7 @@ def optimize_decision_tree_sklearn(X_train, y_train, cv=5):
     return grid_search.best_estimator_
 
 def optimize_custom_models_simple(X_train, y_train, optimized_sklearn_models):
-    """Optimiza modelos custom usando los parámetros encontrados por sklearn (método simple)"""
+    """Optimiza modelos custom usando los parámetros encontrados por sklearn como referencia"""
     
     log_sklearn_opt, tree_sklearn_opt = optimized_sklearn_models
     
