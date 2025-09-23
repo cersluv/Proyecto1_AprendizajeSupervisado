@@ -38,3 +38,39 @@ def predecir(model, X_test):
     return model.predict(X_test)
     
 """
+
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Rutas de los archivos
+train_path = "Problema_III/dataset/Train.csv"
+test_path = "Problema_III/dataset/Test.csv"
+
+def load_data(path):
+    """Carga el dataset desde un CSV y separa etiquetas e imágenes."""
+    df = pd.read_csv(path)
+    labels = df.iloc[:, 0].values
+    images = df.iloc[:, 1:].values
+    return images, labels
+
+def visualize_samples(images, labels, num_samples=10):
+    """Muestra las primeras 'num_samples' imágenes con sus etiquetas."""
+    plt.figure(figsize=(10, 5))
+    for i in range(num_samples):
+        img = images[i].reshape(28, 28)  # Convertir a matriz 28x28
+        plt.subplot(2, num_samples//2, i+1)
+        plt.imshow(img, cmap='gray')
+        plt.title(f"Label: {labels[i]}")
+        plt.axis('off')
+    plt.tight_layout()
+    plt.show()
+
+if __name__ == "__main__":
+    # Cargar datos de entrenamiento
+    train_images, train_labels = load_data(train_path)
+
+    # Visualizar primeras 10 imágenes
+    visualize_samples(train_images, train_labels)
