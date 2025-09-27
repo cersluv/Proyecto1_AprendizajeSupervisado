@@ -7,3 +7,7 @@ test_labels.npy
 train_bin.npy
 train_clahe.npy
 train_labels.npy
+*.npy
+*.pkl
+evaluation_results.csv
+*.pyc
