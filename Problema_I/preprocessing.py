@@ -10,7 +10,7 @@ def preparar_datos(df=None):
     # 1. Cargar dataset si no se pasa como argumento
     # --------------------------
     if df is None:
-        DATA_PATH = os.path.join("Problema_I", "dataset", "IngresosPromedioAnual.xlsx")
+        DATA_PATH = os.path.join("dataset/IngresosPromedioAnual.xlsx")
         df = pd.read_excel(DATA_PATH)
 
     # --------------------------
@@ -18,8 +18,8 @@ def preparar_datos(df=None):
     # --------------------------
     pd.set_option("display.max_columns", None)
     pd.set_option("display.width", None)
-    print("\n🔍 Primeras filas del dataset:")
-    #print(df.head(3))
+    print("\nPrimeras filas del dataset:")
+    print(df.head(3))
 
     # --------------------------
     # 3. Reemplazar "?" por NaN
