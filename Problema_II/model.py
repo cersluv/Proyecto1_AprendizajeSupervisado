@@ -3,7 +3,6 @@ from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.model_selection import GridSearchCV
-import matplotlib.pyplot as plt
 from collections import Counter
 
 # --------------------------
@@ -299,60 +298,4 @@ def evaluar_modelo(y_true, y_pred, nombre_modelo="Modelo"):
     print(f"RMSE: {np.sqrt(mean_squared_error(y_true, y_pred)):.4f}")
     print(f"R²:   {r2_score(y_true, y_pred):.4f}")
 
-def comparar_modelos(y_true, y_pred_custom, y_pred_sklearn, nombre_modelo="Modelo"):
-    """Función para comparar implementación manual vs sklearn"""
-    print(f"\n=== COMPARACIÓN: {nombre_modelo} ===")
-    
-    print("\n--- Implementación Manual ---")
-    print(f"MAE:  {mean_absolute_error(y_true, y_pred_custom):.4f}")
-    print(f"MSE:  {mean_squared_error(y_true, y_pred_custom):.4f}")
-    print(f"RMSE: {np.sqrt(mean_squared_error(y_true, y_pred_custom)):.4f}")
-    print(f"R²:   {r2_score(y_true, y_pred_custom):.4f}")
-    
-    print("\n--- Implementación sklearn ---")
-    print(f"MAE:  {mean_absolute_error(y_true, y_pred_sklearn):.4f}")
-    print(f"MSE:  {mean_squared_error(y_true, y_pred_sklearn):.4f}")
-    print(f"RMSE: {np.sqrt(mean_squared_error(y_true, y_pred_sklearn)):.4f}")
-    print(f"R²:   {r2_score(y_true, y_pred_sklearn):.4f}")
-    
-    # Diferencia entre implementaciones
-    mae_diff = abs(mean_absolute_error(y_true, y_pred_custom) - mean_absolute_error(y_true, y_pred_sklearn))
-    print(f"\n--- Diferencia MAE entre implementaciones: {mae_diff:.4f} ---")
 
-# --------------------------
-# Visualización
-# --------------------------
-
-def graficar_resultados(y_true, y_pred, nombre_modelo="Modelo"):
-    plt.figure(figsize=(8, 5))
-    plt.scatter(y_true, y_pred, alpha=0.5)
-    plt.plot([y_true.min(), y_true.max()], [y_true.min(), y_true.max()], 'r--')
-    plt.xlabel("Valor real")
-    plt.ylabel("Predicción")
-    plt.title(f"Predicción vs Real - {nombre_modelo}")
-    plt.grid(True)
-    plt.tight_layout()
-    plt.show()
-
-def graficar_comparacion(y_true, y_pred_custom, y_pred_sklearn, nombre_modelo="Modelo"):
-    """Función para graficar comparación entre implementaciones"""
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
-    
-    # Implementación manual
-    ax1.scatter(y_true, y_pred_custom, alpha=0.5, color='blue')
-    ax1.plot([y_true.min(), y_true.max()], [y_true.min(), y_true.max()], 'r--')
-    ax1.set_xlabel("Valor real")
-    ax1.set_ylabel("Predicción")
-    ax1.set_title(f"{nombre_modelo} - Implementación Manual")
-    ax1.grid(True)
-    
-    # Implementación sklearn
-    ax2.scatter(y_true, y_pred_sklearn, alpha=0.5, color='green')
-    ax2.plot([y_true.min(), y_true.max()], [y_true.min(), y_true.max()], 'r--')
-    ax2.set_xlabel("Valor real")
-    ax2.set_ylabel("Predicción")
-    ax2.set_title(f"{nombre_modelo} - Implementación sklearn")
-    ax2.grid(True)
-    
-    plt.tight_layout()
-    plt.show()

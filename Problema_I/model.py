@@ -3,6 +3,11 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
 from collections import Counter
+import sys
+import os
+sys.path.append(os.path.abspath(".."))
+from utils import calcular_metricas
+
 
 # --------------------------
 # Implementación propia
@@ -301,7 +306,7 @@ def optimize_custom_models_simple(X_train, y_train, optimized_sklearn_models):
     # ============================================
     # Optimizar Regresión Logística Custom
     # ============================================
-    print("🔧 Optimizando Regresión Logística Custom...")
+    print("Optimizando Regresión Logística Propia...")
     
     # Grid pequeño para logistic regression custom
     learning_rates = [0.001, 0.01, 0.1]
@@ -311,7 +316,7 @@ def optimize_custom_models_simple(X_train, y_train, optimized_sklearn_models):
     best_log_params = {}
     best_log_model = None
     
-    print(f"🔍 Probando {len(learning_rates)} × {len(max_iterations)} = {len(learning_rates) * len(max_iterations)} combinaciones...")
+    print(f"Probando {len(learning_rates)} × {len(max_iterations)} = {len(learning_rates) * len(max_iterations)} combinaciones...")
     
     for lr in learning_rates:
         for max_iter in max_iterations:
@@ -327,21 +332,21 @@ def optimize_custom_models_simple(X_train, y_train, optimized_sklearn_models):
                 best_log_params = {'learning_rate': lr, 'max_iterations': max_iter}
                 best_log_model = model
     
-    print(f"✅ Mejores parámetros Logistic Custom: {best_log_params}")
-    print(f"   Score: {best_log_score:.4f}")
+    print(f"Mejores parámetros Regresión Logística Propia: {best_log_params}")
+    print(f" Score: {best_log_score:.4f}")
     
     # ============================================
     # Optimizar Árbol Custom usando parámetros de sklearn
     # ============================================
-    print("\n🔧 Optimizando Árbol Custom usando parámetros de sklearn...")
+    print("\n Optimizando Árbol de decisión propio usando parámetros de sklearn")
     
     # Obtener los mejores parámetros del modelo sklearn optimizado
     sklearn_params = tree_sklearn_opt.get_params()
     
-    print(f"📋 Parámetros sklearn encontrados:")
-    print(f"   • max_depth: {sklearn_params.get('max_depth')}")
-    print(f"   • min_samples_split: {sklearn_params.get('min_samples_split')}")
-    print(f"   • min_samples_leaf: {sklearn_params.get('min_samples_leaf')}")
+    print(f"Parámetros sklearn encontrados:")
+    print(f"max_depth: {sklearn_params.get('max_depth')}")
+    print(f"min_samples_split: {sklearn_params.get('min_samples_split')}")
+    print(f"min_samples_leaf: {sklearn_params.get('min_samples_leaf')}")
     
     # Usar exactamente los mismos parámetros de sklearn
     best_max_depth = sklearn_params.get('max_depth')
@@ -366,29 +371,26 @@ def optimize_custom_models_simple(X_train, y_train, optimized_sklearn_models):
         'min_samples_leaf': best_min_leaf
     }
     
-    print(f"✅ Parámetros Tree Custom (copiados de sklearn): {best_tree_params}")
-    print(f"   Score: {tree_score:.4f}")
-    print(f"   📝 Nota: Usa exactamente los mismos parámetros que sklearn encontró")
+    print(f"Parámetros Tree Custom (copiados de sklearn): {best_tree_params}")
+    print(f"Score: {tree_score:.4f}")
     
     return best_log_model, best_tree_model
 
 def get_optimized_custom_models(X_train, y_train):
     """Función principal para obtener modelos custom optimizados de forma eficiente"""
     
-    print("🚀 Iniciando optimización: sklearn primero, custom después...")
-    
     # Primero optimizar sklearn
-    print("\n1️⃣ Optimizando modelos sklearn con GridSearch...")
+    print("\nOptimizando modelos sklearn con GridSearch...")
     log_sklearn_opt = optimize_logistic_regression_sklearn(X_train, y_train)
     tree_sklearn_opt = optimize_decision_tree_sklearn(X_train, y_train)
     
     # Luego optimizar custom usando esos parámetros como referencia
-    print("\n2️⃣ Optimizando modelos custom usando parámetros de sklearn como guía...")
+    print("\nOptimizando modelos custom usando parámetros de sklearn como guía...")
     log_custom_opt, tree_custom_opt = optimize_custom_models_simple(
         X_train, y_train, (log_sklearn_opt, tree_sklearn_opt)
     )
     
-    print("\n✅ Optimización completa!")
+    print("\nOptimización completa")
     
     return log_custom_opt, tree_custom_opt, log_sklearn_opt, tree_sklearn_opt
 
@@ -410,16 +412,4 @@ def decision_tree_sklearn_optimized(X_train, y_train):
 
 def evaluar_modelo(y_true, y_pred):
     """Calcula métricas de evaluación"""
-    from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
-    
-    accuracy = accuracy_score(y_true, y_pred)
-    precision = precision_score(y_true, y_pred)
-    recall = recall_score(y_true, y_pred)
-    f1 = f1_score(y_true, y_pred)
-    
-    return {
-        'accuracy': accuracy,
-        'precision': precision,
-        'recall': recall,
-        'f1_score': f1
-    }
+    calcular_metricas(y_true, y_pred)
